@@ -5,7 +5,7 @@ import os
 import sqlite3 as sql
 app = Flask(__name__)
 
-BOOK_FOLDER = ',/BOOK_FOLDER'
+BOOK_FOLDER = './BOOK_FOLDER'
 app.config['BOOK_FOLDER']=BOOK_FOLDER
 
 @app.route('/')
@@ -16,18 +16,18 @@ def home3():
 def bform():
     if request.method =='POST':
         
-        nm = request.form['name']
-        p = request.form['author']
+                nm = request.form['name']
+                p = request.form['author']
 
-        f= request.files['file']
-        filename = secure_filename(f.filename)
-        f.save[os.path.join(app.config['BOOK_FOLDER'],filename)]
+                f= request.files['file']
+                filename = secure_filename(f.filename)
+                f.save(os.path.join(app.config['BOOK_FOLDER'],filename))
 
-        con = sql.connect("database3.db")
-        cur = con.cursor()
-        cur.execute('INSERT INTO book(name,author,pdf) VALUES (?,?,?)',(nm,p,filename))
-        con.commit()
-        return render_template('resultb.html')
+                con = sql.connect("database3.db")
+                cur = con.cursor()
+                cur.execute('INSERT INTO book(name,author,pdf) VALUES (?,?,?)',(nm,p,filename))
+                con.commit()
+                return render_template('resultb.html')
     return render_template('bform.html')   
 @ app.route('/upload')
 def upload():
@@ -56,4 +56,4 @@ def booklist():
     return render_template('booklist.html',rows=rows)
 
 if __name__=='__main__':
-   app.run(debug=True,port=2023)
+   app.run(debug=True,port=2021)
